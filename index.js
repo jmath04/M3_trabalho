@@ -12,16 +12,19 @@ const urlencodedParser = bodyParser.urlencoded({extended:false});
 
 const app = express();
 
-const conect = mysql.createConnection({
+/*const conect = mysql.createConnection({
     host: 'localhost',
     user: 'server',
     password: 'Senha@123*',
     database: 'M3'
-})
+})*/
 
 app.listen(4000, () => {
     console.log("server rodando na porta 4000");
 })
+
+app.use(express.static(__dirname + "/front"));
+
 
 app.use(session(
     {
@@ -32,9 +35,22 @@ app.use(session(
     }
 ));
 
-app.get("/", (req, post) =>{
-    post.send("<p>teste</p>");
-    conect.query('SELECT * FROM produto', (resultados) =>{
-        console.log(resultados);
-    });
+app.get("/", (req, res) => {
+    res.sendFile(__dirname + "/front/index.html");
+});
+
+app.get("/moradores", (req, res) => {
+    res.sendFile(__dirname + "/front/moradores.html");
+});
+
+app.get("/unidades", (req, res) => {
+    res.sendFile(__dirname + "/front/unidades.html");
+});
+
+app.get("/pagamentos", (req, res) => {
+    res.sendFile(__dirname + "/front/pagamentos.html");
+});
+
+app.get("/comprovante", (req, res) => {
+    res.sendFile(__dirname + "/front/comprovante.html");
 });
