@@ -24,7 +24,7 @@ create table unidades(
 create table pagamentos(
 	id_pagamento int auto_increment primary key,
     id_morador int,
-    data_pagamento varchar(10),
+    data_pagamento DATE,
     comprovante MEDIUMBLOB,
     mes_ref varchar(2),
     ano_ref varchar(4),
