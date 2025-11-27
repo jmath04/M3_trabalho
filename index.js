@@ -14,8 +14,8 @@ const app = express();
 
 const conect = mysql.createConnection({
     host: 'localhost',
-    user: 'root',
-    password: 'Mag27081*',
+    user: 'server',
+    password: 'Senha@123*',
     database: 'M3'
 })
 
