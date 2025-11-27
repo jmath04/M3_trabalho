@@ -15,22 +15,24 @@
     <h2>Cadastrar Morador</h2>
 
     <div class="form-section">
-        <label>Nome</label>
-        <input type="text">
-
-        <label>Sobrenome</label>
-        <input type="text">
-
-        <label>E-mail</label>
-        <input type="email">
-
-        <label>RG</label>
-        <input type="text" maxlength="7">
-
-        <label>Telefone</label>
-        <input type="text" maxlength="14">
-
-        <button>Cadastrar</button>
+        <form action="/cad_moradores" method="post">
+            <label>Nome</label>
+            <input type="text">
+    
+            <label>Sobrenome</label>
+            <input type="text">
+    
+            <label>E-mail</label>
+            <input type="email">
+    
+            <label>RG</label>
+            <input type="text" maxlength="7">
+    
+            <label>Telefone</label>
+            <input type="text" maxlength="14">
+            
+            <button>Cadastrar</button>
+        </form>
     </div>
 
     <h2>Moradores Cadastrados</h2>

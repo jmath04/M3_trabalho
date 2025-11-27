@@ -12,12 +12,12 @@ const urlencodedParser = bodyParser.urlencoded({extended:false});
 
 const app = express();
 
-/*const conect = mysql.createConnection({
+const conect = mysql.createConnection({
     host: 'localhost',
     user: 'server',
-    password: 'Senha@123*',
+    password: 'Senha@123',
     database: 'M3'
-})*/
+})
 
 app.listen(4000, () => {
     console.log("server rodando na porta 4000");
@@ -53,4 +53,11 @@ app.get("/pagamentos", (req, res) => {
 
 app.get("/comprovante", (req, res) => {
     res.sendFile(__dirname + "/front/comprovante.html");
+});
+
+app.post("/cad_moradores", (req, res) =>{
+    if(req){
+        const {nome, sobrenome,email,rg,telefone} = req.body;
+    conect.query("CALL cadastra_moradores(" + nome + "," + sobrenome + "," + email + "," + rg + "," + telefone + ");");   
+    }
 });
