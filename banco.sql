@@ -34,21 +34,7 @@ create table pagamentos(
     foreign key (id_unidade) references unidades(id_unidade)
 );
 
-DELIMITER ; 
 
-CREATE PROCEDURE cadastra_moradores(
-    IN n varchar(200), 
-    IN s varchar(200), 
-    IN e varchar(200), 
-    IN doc_rg varchar(9), -- Mudei o nome para evitar conflito
-    IN tel varchar(14)
-)
-BEGIN
-    INSERT INTO moradores (nome, sobrenome, email, rg, telefone) 
-    VALUES (n, s, e, doc_rg, tel);
-END //
-
-DELIMITER ;
 
 CALL cadastra_moradores('João Matheus', 'de Oliveira Vieira', 'exemplo@exemplo.com.br', '0.000.000', '48991098811');
 
