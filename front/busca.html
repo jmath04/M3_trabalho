@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Buscar Moradores</title>
-    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
@@ -14,12 +14,11 @@
 
     <h2>Buscar Moradores</h2>
 
-    <div class="search-area">
-        <input type="text" id="campoBusca" placeholder="Digite nome, email, RG...">
+    <div class="form-section">
+        <label for="campoBusca">Digite o termo da busca:</label>
+        <input type="text" id="campoBusca" placeholder="Nome, sobrenome, email, RG ou telefone">
         <button id="btnBuscar">Buscar</button>
     </div>
-
-    <p id="msg" style="display:none; margin-top:10px; color:#b00; font-weight:600;"></p>
 
     <table id="tabela" style="display:none;">
         <thead>
@@ -37,34 +36,21 @@
 </div>
 
 <script>
-
 function buscar() {
     const termo = document.getElementById("campoBusca").value.trim();
     const tabela = document.getElementById("tabela");
     const corpo = document.getElementById("resultado");
-    const msg = document.getElementById("msg");
 
-    msg.style.display = "none";
-    tabela.style.display = "none";
     corpo.innerHTML = "";
+    tabela.style.display = "none";
 
-    if (termo === "") {
-        msg.innerText = "Digite algo para buscar.";
-        msg.style.display = "block";
-        return;
-    }
+    if (termo === "") return;
 
     fetch(`/api/busca?q=${encodeURIComponent(termo)}`)
         .then(res => res.json())
         .then(lista => {
 
-            if (!Array.isArray(lista) || lista.length === 0) {
-                msg.innerText = "Nenhum resultado encontrado.";
-                msg.style.display = "block";
-                return;
-            }
-
-            tabela.style.display = "table";
+            if (!Array.isArray(lista) || lista.length === 0) return;
 
             lista.forEach(m => {
                 corpo.innerHTML += `
@@ -77,19 +63,15 @@ function buscar() {
                     </tr>
                 `;
             });
-        })
-        .catch(() => {
-            msg.innerText = "Erro ao buscar dados.";
-            msg.style.display = "block";
+
+            tabela.style.display = "table";
         });
 }
 
 document.getElementById("btnBuscar").addEventListener("click", buscar);
-
 document.getElementById("campoBusca").addEventListener("keypress", (e) => {
     if (e.key === "Enter") buscar();
 });
-
 </script>
 
 </body>

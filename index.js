@@ -72,6 +72,10 @@ app.post("/cad_moradores", (req, res) =>{
     res.redirect("/moradores");
 });
 
+app.get("/busca", (req, res) => {
+    res.sendFile(__dirname + "/front/busca.html")
+});
+
 app.get("/api/busca", (req, res) => {
     const termo = `%${req.query.q}%`;
 
