@@ -17,19 +17,19 @@
     <div class="form-section">
         <form action="/cad_moradores" method="post">
             <label>Nome</label>
-            <input type="text">
+            <input type="text" name="nome" required>
     
             <label>Sobrenome</label>
-            <input type="text">
+            <input type="text" name="sobrenome" required>
     
             <label>E-mail</label>
-            <input type="email">
+            <input type="email" name="email" required>
     
             <label>RG</label>
-            <input type="text" maxlength="7">
+            <input type="text" name="rg" maxlength="7" required>
     
             <label>Telefone</label>
-            <input type="text" maxlength="14">
+            <input type="text" name="telefone" maxlength="14" required>
             
             <button>Cadastrar</button>
         </form>
