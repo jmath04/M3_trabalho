@@ -69,5 +69,5 @@ app.post("/cad_moradores", (req, res) =>{
         const {nome, sobrenome,email,rg,telefone} = req.body;
         conect.query("CALL cadastra_moradores(?,?,?,?,?)", [nome,sobrenome,email,rg,telefone]);   
     }
-    res.redirect("/");
+    res.redirect("/moradores");
 });
