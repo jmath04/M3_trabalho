@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>Buscar Moradores</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+
+<body>
+
+<header>Buscar Moradores</header>
+
+<div class="container">
+
+    <h2>Buscar Moradores</h2>
+
+    <div class="search-area">
+        <input type="text" id="campoBusca" placeholder="Digite nome, email, RG...">
+        <button id="btnBuscar">Buscar</button>
+    </div>
+
+    <p id="msg" style="display:none; margin-top:10px; color:#b00; font-weight:600;"></p>
+
+    <table id="tabela" style="display:none;">
+        <thead>
+            <tr>
+                <th>Nome</th>
+                <th>Sobrenome</th>
+                <th>Email</th>
+                <th>RG</th>
+                <th>Telefone</th>
+            </tr>
+        </thead>
+        <tbody id="resultado"></tbody>
+    </table>
+
+</div>
+
+<script>
+
+function buscar() {
+    const termo = document.getElementById("campoBusca").value.trim();
+    const tabela = document.getElementById("tabela");
+    const corpo = document.getElementById("resultado");
+    const msg = document.getElementById("msg");
+
+    msg.style.display = "none";
+    tabela.style.display = "none";
+    corpo.innerHTML = "";
+
+    if (termo === "") {
+        msg.innerText = "Digite algo para buscar.";
+        msg.style.display = "block";
+        return;
+    }
+
+    fetch(`/api/busca?q=${encodeURIComponent(termo)}`)
+        .then(res => res.json())
+        .then(lista => {
+
+            if (!Array.isArray(lista) || lista.length === 0) {
+                msg.innerText = "Nenhum resultado encontrado.";
+                msg.style.display = "block";
+                return;
+            }
+
+            tabela.style.display = "table";
+
+            lista.forEach(m => {
+                corpo.innerHTML += `
+                    <tr>
+                        <td>${m.nome}</td>
+                        <td>${m.sobrenome}</td>
+                        <td>${m.email}</td>
+                        <td>${m.rg}</td>
+                        <td>${m.telefone}</td>
+                    </tr>
+                `;
+            });
+        })
+        .catch(() => {
+            msg.innerText = "Erro ao buscar dados.";
+            msg.style.display = "block";
+        });
+}
+
+document.getElementById("btnBuscar").addEventListener("click", buscar);
+
+document.getElementById("campoBusca").addEventListener("keypress", (e) => {
+    if (e.key === "Enter") buscar();
+});
+
+</script>
+
+</body>
+</html>

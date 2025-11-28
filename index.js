@@ -71,3 +71,20 @@ app.post("/cad_moradores", (req, res) =>{
     }
     res.redirect("/moradores");
 });
+
+app.get("/api/busca", (req, res) => {
+    const termo = `%${req.query.q}%`;
+
+    conect.query(
+        "SELECT * FROM moradores WHERE nome LIKE ? OR sobrenome LIKE ? OR email LIKE ? OR rg LIKE ? OR telefone LIKE ?",
+        [termo, termo, termo, termo, termo],
+        (erro, resultado) => {
+            if (erro) {
+                console.log("Erro SQL: ", erro);
+                res.send([]);
+                return;
+            }
+            res.send(resultado);
+        }
+    );
+});
