@@ -6,11 +6,13 @@ const express = require('express');
 
 const mysql = require('mysql2');
 
-
-const urlencodedParser = bodyParser.urlencoded({extended:false});
-
-
 const app = express();
+
+app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
+
+app.set('view engine', 'ejs');
+app.set('views','./front');
 
 const conect = mysql.createConnection({
     host: 'localhost',
@@ -40,7 +42,14 @@ app.get("/", (req, res) => {
 });
 
 app.get("/moradores", (req, res) => {
-    res.sendFile(__dirname + "/front/moradores.html");
+    conect.query("select * FROM moradores", (erro, dadosDoBanco) => {
+        if (erro) {
+            console.log("Deu erro no SQL:", erro);
+            res.send("Erro ao consultar banco");
+            return;
+        }
+        res.render('moradores', { lista: dadosDoBanco });
+    });
 });
 
 app.get("/unidades", (req, res) => {
@@ -58,6 +67,7 @@ app.get("/comprovante", (req, res) => {
 app.post("/cad_moradores", (req, res) =>{
     if(req){
         const {nome, sobrenome,email,rg,telefone} = req.body;
-    conect.query("CALL cadastra_moradores(" + nome + "," + sobrenome + "," + email + "," + rg + "," + telefone + ");");   
+        conect.query("CALL cadastra_moradores(?,?,?,?,?)", [nome,sobrenome,email,rg,telefone]);   
     }
+    res.redirect("/");
 });
