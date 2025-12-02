@@ -67,7 +67,7 @@ app.get("/comprovante", (req, res) => {
 app.post("/cad_moradores", (req, res) =>{
     if(req){
         const {nome, sobrenome,email,rg,telefone} = req.body;
-        conect.query("CALL cadastra_moradores(?,?,?,?,?)", [nome,sobrenome,email,rg,telefone]);   
+        conect.query("CALL inserir_morador(?,?,?,?,?)", [nome,sobrenome,email,rg,telefone]);   
     }
     res.redirect("/moradores");
 });
@@ -77,18 +77,21 @@ app.get("/busca", (req, res) => {
 });
 
 app.get("/api/busca", (req, res) => {
-    const termo = `%${req.query.q}%`;
-
+    const nome = req.query.nome || null;
+    const sobrenome = req.query.sobrenome || null;
+    const email = req.query.email || null;
+    const rg = req.query.rg || null;
+    const telefone = req.query.telefone || null;
     conect.query(
-        "SELECT * FROM moradores WHERE nome LIKE ? OR sobrenome LIKE ? OR email LIKE ? OR rg LIKE ? OR telefone LIKE ?",
-        [termo, termo, termo, termo, termo],
+        "CALL pesquisa_moradores(?,?,?,?,?)",
+        [nome,sobrenome,email,rg,telefone],
         (erro, resultado) => {
             if (erro) {
                 console.log("Erro SQL: ", erro);
                 res.send([]);
                 return;
             }
-            res.send(resultado);
+            res.send(resultado[0]);
         }
     );
 });
