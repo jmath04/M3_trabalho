@@ -5,19 +5,17 @@
     <title>Buscar Moradores</title>
     <link rel="stylesheet" href="style.css">
     <style>
-        /* CSS Básico para organizar os 5 campos */
         .form-grid {
             display: grid;
-            grid-template-columns: 1fr 1fr; /* 2 colunas */
+            grid-template-columns: 1fr 1fr; 
             gap: 10px;
             margin-bottom: 15px;
         }
         .form-grid input {
             padding: 8px;
             width: 100%;
-            box-sizing: border-box; /* Garante que o padding não quebre o layout */
+            box-sizing: border-box;
         }
-        /* O botão ocupa a largura total abaixo dos inputs */
         .full-width {
             grid-column: span 2; 
         }
@@ -60,7 +58,6 @@
 
 <script>
 function buscar() {
-    // 1. Capturar os valores individuais
     const nome = document.getElementById("inpNome").value.trim();
     const sobrenome = document.getElementById("inpSobrenome").value.trim();
     const email = document.getElementById("inpEmail").value.trim();
@@ -73,9 +70,6 @@ function buscar() {
     corpo.innerHTML = "";
     tabela.style.display = "none";
 
-    // 2. Montar a Query String (ex: ?nome=joao&rg=123)
-    // O URLSearchParams facilita muito isso, ele ignora o que for undefined se configurado, 
-    // mas aqui vamos passar tudo e o backend trata os vazios.
     const params = new URLSearchParams({
         nome: nome,
         sobrenome: sobrenome,
@@ -84,13 +78,12 @@ function buscar() {
         telefone: telefone
     });
 
-    // A URL final ficará algo como: /api/busca?nome=Valor&sobrenome=&email=...
+
     fetch(`/api/busca?${params.toString()}`)
         .then(res => res.json())
         .then(lista => {
 
             if (!Array.isArray(lista) || lista.length === 0) {
-                // Opcional: Mostrar aviso de "Nenhum resultado"
                 return;
             }
 
@@ -113,7 +106,6 @@ function buscar() {
 
 document.getElementById("btnBuscar").addEventListener("click", buscar);
 
-// Adiciona o evento de Enter para TODOS os inputs
 const inputs = document.querySelectorAll("input");
 inputs.forEach(input => {
     input.addEventListener("keypress", (e) => {

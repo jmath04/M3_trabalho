@@ -13,9 +13,8 @@ app.set('views','./front');
 
 const upload = multer({ 
     dest: 'uploads/',
-    limits: { fileSize: 10 * 1024 * 1024 }, // 10MB
+    limits: { fileSize: 10 * 1024 * 1024 }, 
     fileFilter: (req, file, cb) => {
-        // Permitir PDFs
         if (file.mimetype === 'application/pdf' || 
             file.mimetype === 'application/octet-stream' ||
             file.originalname.match(/\.(pdf)$/)) {
