@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gerenciar Pagamentos</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header>Gerenciar Pagamentos</header>
+
+<div class="container">
+
+    <h2>Registrar Pagamento</h2>
+
+    <form action="/cad_pagamentos" method="POST" enctype="multipart/form-data" class="form-section">
+        <label>Morador</label>
+        <select name="id_morador" required>
+            <option value="">Selecione...</option>
+            <% moradores.forEach(function(morador) { %>
+                <option value="<%= morador.id_morador %>">
+                    <%= morador.nome %> <%= morador.sobrenome %>
+                </option>
+            <% }); %>
+        </select>
+
+        <label>Data de Pagamento</label>
+        <input type="date" name="data_pagamento" required>
+
+        <label>Ano de Referência</label>
+        <input type="number" name="ano_ref" min="2000" max="2100" value="<%= new Date().getFullYear() %>" required>
+
+        <label>Mês de Referência</label>
+        <select name="mes_ref" required>
+            <option value="01">01 - Janeiro</option>
+            <option value="02">02 - Fevereiro</option>
+            <option value="03">03 - Março</option>
+            <option value="04">04 - Abril</option>
+            <option value="05">05 - Maio</option>
+            <option value="06">06 - Junho</option>
+            <option value="07">07 - Julho</option>
+            <option value="08">08 - Agosto</option>
+            <option value="09">09 - Setembro</option>
+            <option value="10">10 - Outubro</option>
+            <option value="11">11 - Novembro</option>
+            <option value="12">12 - Dezembro</option>
+        </select>
+
+        <label>Unidade</label>
+        <select name="id_unidade" required>
+            <option value="">Selecione...</option>
+            <% unidades.forEach(function(unidade) { %>
+                <option value="<%= unidade.id_unidade %>">
+                    <%= unidade.loc %>
+                </option>
+            <% }); %>
+        </select>
+
+        <label>Comprovante (PDF)</label>
+        <input type="file" name="comprovante" accept="application/pdf" required>
+
+        <button type="submit">Cadastrar Pagamento</button>
+    </form>
+
+    <h2>Pagamentos Registrados</h2>
+
+    <table>
+        <tr>
+            <th>ID</th>
+            <th>Morador</th>
+            <th>Data Pagamento</th>
+            <th>Ano</th>
+            <th>Mês</th>
+            <th>Unidade</th>
+            <th>Data Registro</th>
+            <th>Ações</th>
+        </tr>
+        <% pagamentos.forEach(function(p) { %>
+        <tr>
+            <td><%= p.id_pagamento %></td>
+            <td><%= p.nome_pagador %></td>
+            <td><%= p.data_pagamento %></td>
+            <td><%= p.ano_ref %></td>
+            <td><%= p.mes_ref %></td>
+            <td><%= p.localizacao_unidade %></td>
+            <td><%= p.data_reg %></td>
+            <td>
+                <a href="/download_comprovante/<%= p.id_pagamento %>" target="_blank">Ver PDF</a>
+                <form action="/del_pagamentos" method="POST" style="display: inline;">
+                    <input type="hidden" name="id_pagamento" value="<%= p.id_pagamento %>">
+                    <button type="submit" onclick="return confirm('Tem certeza?')">Excluir</button>
+                </form>
+            </td>
+        </tr>
+        <% }); %>
+    </table>
+
+</div>
+
+</body>
+</html>

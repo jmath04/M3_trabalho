@@ -2,10 +2,6 @@ Create database M3;
 
 use M3;
 
-create user server@localhost identified by 'Senha@123';
-
-grant EXECUTE on *.* to server@localhost;
-
 create table moradores(
 	id_morador int primary key auto_increment,
     nome varchar(200),

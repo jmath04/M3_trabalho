@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gerenciar Moradores</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header>Gerenciar Moradores</header>
+
+<div class="container">
+
+    <h2>Cadastrar Morador</h2>
+
+    <form action="/cad_moradores" method="POST" class="form-section">
+        <label>Nome</label>
+        <input type="text" name="nome" required>
+
+        <label>Sobrenome</label>
+        <input type="text" name="sobrenome" required>
+
+        <label>Email</label>
+        <input type="email" name="email" required>
+
+        <label>RG</label>
+        <input type="text" name="rg" required>
+
+        <label>Telefone</label>
+        <input type="text" name="telefone" required>
+
+        <button type="submit">Cadastrar</button>
+    </form>
+
+    <h2>Moradores Cadastrados</h2>
+
+    <table>
+        <tr>
+            <th>ID</th>
+            <th>Nome</th>
+            <th>Sobrenome</th>
+            <th>Email</th>
+            <th>RG</th>
+            <th>Telefone</th>
+            <th>Ações</th>
+        </tr>
+        <% lista.forEach(function(morador) { %>
+        <tr>
+            <td><%= morador.id_morador %></td>
+            <td><%= morador.nome %></td>
+            <td><%= morador.sobrenome %></td>
+            <td><%= morador.email %></td>
+            <td><%= morador.RG %></td>
+            <td><%= morador.telefone %></td>
+            <td>
+                <form action="/del_moradores" method="POST" style="display: inline;">
+                    <input type="hidden" name="id_morador" value="<%= morador.id_morador %>">
+                    <button type="submit" onclick="return confirm('Tem certeza?')">Excluir</button>
+                </form>
+            </td>
+        </tr>
+        <% }); %>
+    </table>
+
+</div>
+
+</body>
+</html>
